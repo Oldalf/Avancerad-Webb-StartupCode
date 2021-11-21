@@ -11,14 +11,14 @@ body {
   position: relative;
   width: 300px;
   font-family:Verdana;
-  border-radius:16px;  
+  border-radius:16px;
 }
 
 .search input {
   width: 100%;
   padding: 20px 60px 20px 20px;
   display: block;
-  font-size: 16px;  
+  font-size: 16px;
   border-radius:16px;
 }
 
@@ -36,5 +36,5 @@ body {
 }
 
 .search input:focus {
-  color #802;
+  color: #802;
 }

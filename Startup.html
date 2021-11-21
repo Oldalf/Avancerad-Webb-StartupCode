@@ -1,76 +1,202 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8"/>  
-<title>React Startup Code</title>
-<style>
-  * {
-  box-sizing: border-box;
-}
+  <meta charset="utf-8" />
+  <title>React Startup Code</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  background: gray;
-}
+    body {
+      background: gray;
+    }
 
-.search {
-  background: white;
-  position: relative;
-  width: 300px;
-  font-family:Verdana;
-  border-radius:16px;  
-}
+    .search {
+      background: white;
+      position: relative;
+      width: 300px;
+      font-family: Verdana;
+      border-radius: 16px;
+    }
 
-.search input {
-  width: 100%;
-  padding: 20px 60px 20px 20px;
-  display: block;
-  font-size: 16px;  
-  border-radius:16px;
-}
+    .search input {
+      width: 100%;
+      padding: 20px 60px 20px 20px;
+      display: block;
+      font-size: 16px;
+      border-radius: 16px;
+    }
 
-.search button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 20px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px 8px;
-  z-index: 2;
-}
+    .search button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 20px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 8px;
+      z-index: 2;
+    }
 
-.search input:focus {
-  color #802;
-}
-
-</style>
+    .search input:focus {
+      color: #802;
+    }
+  </style>
 </head>
+
 <body>
-<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script type="text/javascript" src="./components/info.js"></script>
 
-<form action="Startup.html" method="get">
-  <div class="form-group search">
-    <input type="text" class="input" placeholder="search" name="ort">
-    <button type="submit"><img src='magnify.svg'></button>
+  <form action="Startup.html" method="get">
+    <div class="form-group search">
+      <input type="text" class="input" placeholder="search" name="ort">
+      <button type="submit"><img src='magnify.svg'></button>
+    </div>
+  </form>
+
+  <div id="content">
+
   </div>
-</form>
 
-<div id="content">
+  <script type="text/babel">
 
-</div>
+    // React since react V4 does not read query parameters so we read query parameter directly
 
-<script type="text/babel">
+    /* const urlParams = new URLSearchParams(window.location.search);
+    const ort = urlParams.get('ort');
 
-// React since react V4 does not read query parameters so we read query parameter directly
-const urlParams = new URLSearchParams(window.location.search);
-const ort = urlParams.get('ort');
+    if (ort != null) alert(ort); */
 
-if(ort!=null) alert(ort);
+    /* Auxdata (the forecast data) */
+    class AuxData extends React.Component {
+      constructor(props) {
+        super(props);
+        console.log(props);
+        this.state = props.data;
+      }
 
-</script>
+      render() {
+        return (
+          <p>
+            {this.state.TVALUE} {this.state.TUNIT}
+          </p>
+        )
+      }
+    }
+
+    /* Forecast component */
+    class Forecast extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          name: props.name,
+          data: [
+            {
+              fromtime: new Date().toString(),
+              todate: new Date().toString(),
+              periodno: 1,
+              periodname: 'morning',
+              forecast: { "TUNIT": "celsius", "TVALUE": "-9.3", "ALTUNIT": "fahrenheit", "ALTVALUE": "15.26", "NUMBER": "10", "WSYMB3NUMBER": "23", "FNAME": "Sleet", "RUNIT": "mm", "RVALUE": "1.6", "DEG": "268", "CODE": "WSW", "NAME": "West-southwest", "MPS": "5.7", "NAME": "Moderate Breeze", "UNIT": "hPa", "VALUE": "1294" },
+            },
+            {
+              fromtime: new Date().toString(),
+              todate: new Date().toString(),
+              periodno: 0,
+              periodname: 'night',
+              forecast: { "TUNIT": "celsius", "TVALUE": "-9.3", "ALTUNIT": "fahrenheit", "ALTVALUE": "15.26", "NUMBER": "10", "WSYMB3NUMBER": "23", "FNAME": "Sleet", "RUNIT": "mm", "RVALUE": "1.6", "DEG": "268", "CODE": "WSW", "NAME": "West-southwest", "MPS": "5.7", "NAME": "Moderate Breeze", "UNIT": "hPa", "VALUE": "1294" },
+            }
+          ],
+        };
+        console.log(this.state);
+      }
+
+      render() {
+        return (
+          <div>
+            <h1> {this.state.name} </h1>
+            <table>
+              <thead>
+                <tr>
+                  <th> periodno </th>
+                  <th> periodname </th>
+                  <th> fromtime </th>
+                  <th> todate </th>
+                  <th> forecast </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {this.state.data.map(forecastData =>
+                  <tr>
+                    <td> {forecastData.periodno} </td>
+                    <td> {forecastData.periodname} </td>
+                    <td> {forecastData.fromtime} </td>
+                    <td> {forecastData.todate} </td>
+                    <td> <AuxData data={forecastData.forecast}></AuxData> </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )
+      }
+    }
+
+    /* INFO component */
+    class Info extends React.Component {
+      constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+        this.state = {
+          name: 'test',
+          type: 'admin type',
+          country: 'Sverige',
+          about: 'en test typ',
+          province: 'västergötland',
+          municipality: 'skövde',
+          climatecode: '123',
+          climate: 'ett klimat',
+          postalcode: 'postal 123',
+          areacode: 'area code'
+        }
+      }
+
+      handleClick() {
+
+      }
+
+      render() {
+        return (
+          <div>
+            <div>
+              <h1> {this.state.name}</h1>
+              <ul>
+                <li> type: {this.state.type} </li>
+                <li> country: {this.state.country} </li>
+                <li> province: {this.state.province} </li>
+                <li> municipality: {this.state.municipality} </li>
+                <li> postalCode: {this.state.postalcode} </li>
+                <li> areaCode: {this.state.areacode} </li>
+                <li> climate: {this.state.climate} </li>
+                <li> about: {this.state.about} </li>
+              </ul>
+            </div>
+
+            <Forecast name={this.state.name}></Forecast>
+          </div>);
+      }
+    }
+
+    ReactDOM.render(<Info />, document.getElementById("content"));
+
+  </script>
 </body>
+
 </html>

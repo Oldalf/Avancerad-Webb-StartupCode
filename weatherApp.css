@@ -1,28 +1,23 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  background: gray;
-}
-
 .search {
+  box-sizing: border-box;
   background: white;
   position: relative;
   width: 300px;
-  font-family:Verdana;
-  border-radius:16px;
+  font-family: Verdana;
+  border-radius: 16px;
 }
 
 .search input {
+  box-sizing: border-box;
   width: 100%;
   padding: 20px 60px 20px 20px;
   display: block;
   font-size: 16px;
-  border-radius:16px;
+  border-radius: 16px;
 }
 
 .search button {
+  box-sizing: border-box;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -36,5 +31,6 @@ body {
 }
 
 .search input:focus {
+  box-sizing: border-box;
   color: #802;
 }

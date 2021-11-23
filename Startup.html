@@ -38,21 +38,20 @@
         this.state = {
           ...props
         };
-
-        console.log(this.state);
       }
 
       render() {
-        const divStyle = {
+        const style = {
           border: '1px solid black',
           margin: '5px',
           padding: '5px',
         };
 
         return (
-          <div style={divStyle}>
+          <div style={style}>
             <h3>
               {this.state.data.commentid} {!!this.state.data.replyto ? <span> reply to: {this.state.data.replyto} </span> : ''}
+              likes: {this.state.data.nolikes}
             </h3>
 
             <p>
@@ -161,6 +160,38 @@
             {this.state.data.map(comment => <Comment key={comment.commentid} data={comment}></Comment>)}
           </div>
         )
+      }
+    }
+
+    class ShowCommentsButton extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+        this.state = {
+          name: props.name,
+          show: false,
+        };
+      }
+
+      handleClick() {
+        const tempState = { ...this.state }
+
+        tempState.show = !tempState.show
+
+        this.setState(tempState)
+      }
+
+      render() {
+        return (
+          <div>
+            <button onClick={this.handleClick}>
+              {this.state.show ? 'Dölj kommentarer' : 'Visa kommentarer'}
+            </button>
+
+            {this.state.show && <Comments name={this.state.name}></Comments>}
+          </div>
+        );
       }
     }
 
@@ -281,7 +312,6 @@
     class Info extends React.Component {
       constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
         this.state = {
           name: 'test',
           type: 'admin type',
@@ -294,10 +324,6 @@
           postalcode: 'postal 123',
           areacode: 'area code'
         }
-      }
-
-      handleClick() {
-
       }
 
       render() {
@@ -321,7 +347,7 @@
 
             <Forecast name={this.state.name}></Forecast>
 
-            <Comments name={this.state.name}></Comments>
+            <ShowCommentsButton name={this.state.name}></ShowCommentsButton>
           </div>);
       }
     }
